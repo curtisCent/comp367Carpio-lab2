@@ -1,5 +1,10 @@
 pipeline {
   agent any
+
+  triggers {
+        pollSCM('H/2 * * * *') // Poll for changes every 2 minutes
+  }
+  
   stages {
     stage('POM existence') {
       parallel {
