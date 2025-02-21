@@ -36,8 +36,5 @@ pipeline {
         failure {
             echo 'Build failed!'
         }
-        always {
-            echo 'This message runs regardless of build outcome.'
-        }
     }
 }
