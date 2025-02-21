@@ -2,14 +2,25 @@ pipeline {
   agent any
   stages {
     stage('POM existence') {
-      steps {
-        fileExists 'pom.xml'
+      parallel {
+        stage('POM existence') {
+          steps {
+            fileExists 'pom.xml'
+          }
+        }
+
+        stage('Version check (fix)') {
+          steps {
+            bat 'mvn --version'
+          }
+        }
+
       }
     }
 
-    stage('Build with Maven') {
+    stage('Build with Maven (fix)') {
       steps {
-        sh 'mvn compile test package'
+        bat 'mvn compile test package'
       }
     }
 
