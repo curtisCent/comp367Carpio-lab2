@@ -1,40 +1,36 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('H/2 * * * *') // Poll for changes every 2 minutes
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "M3"
     }
 
     stages {
-        stage('POM existence') {
-            parallel {
-                stage('POM existence') {
-                  steps {
-                    fileExists 'pom.xml'
-                  }
-                }
-
-                stage('Version check (fix)') {
-                    steps {
-                        bat 'mvn --version'
-                    }
-                }
+        stage("checkout"){
+            steps{
+                git branch: 'main', url: 'https://github.com/curtisCent/comp367Carpio-lab2'
             }
         }
-
-        stage('Build with Maven (fix)') {
-            steps {
-                bat 'mvn compile test package'
+        
+        stage("Build maven project"){
+            steps{
+                sh 'mvn clean install'
             }
         }
-    }
-
-    post {
-        success {
-            echo 'Build succeeded!'
+        
+        stage("Unit test"){
+            steps{
+                sh 'mvn test'
+            }
         }
-        failure {
-            echo 'Build failed!'
+        
+        stage("Docker build"){
+            steps{
+                script{
+                    sh 'docker build -t lab3q1:latest -f .\\Dockerfile .'creden
+                }
+            }
         }
     }
 }
