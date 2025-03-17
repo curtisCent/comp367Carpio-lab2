@@ -15,20 +15,20 @@ pipeline {
         
         stage("Build maven project"){
             steps{
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
         
         stage("Unit test"){
             steps{
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         
         stage("Docker build"){
             steps{
                 script{
-                    sh 'docker build -t lab3q1:latest -f .\\Dockerfile .'creden
+                    bat 'docker build -t lab3q1:latest -f .\\Dockerfile .'creden
                 }
             }
         }
