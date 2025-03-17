@@ -28,7 +28,7 @@ pipeline {
         stage("Docker build"){
             steps{
                 script{
-                    bat 'docker build -t lab3q1:latest -f .\\Dockerfile .'creden
+                    bat 'docker build -t lab3q1:latest -f .\\Dockerfile .'
                 }
             }
         }
